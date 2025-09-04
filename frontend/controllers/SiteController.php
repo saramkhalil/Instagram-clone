@@ -91,6 +91,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // Update last login timestamp for Instagram features
+            $user = Yii::$app->user->identity;
+            if ($user) {
+                $user->updateLastLogin();
+            }
             return $this->goBack();
         }
 
@@ -155,7 +160,7 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            Yii::$app->session->setFlash('success', 'Welcome to Instagram Clone! Your account has been created successfully. Please check your email to verify your account.');
             return $this->goHome();
         }
 

@@ -7,35 +7,42 @@
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'Sign In to Instagram Clone';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4"><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+                    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                        <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => 'Username or Email']) ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                        <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password']) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                        <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        <div class="form-group">
+                            <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary btn-block w-100', 'name' => 'login-button']) ?>
+                        </div>
 
-                <div class="my-1 mx-0" style="color:#999;">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+                        <div class="text-center mt-3">
+                            <p>Don't have an account? <?= Html::a('Sign up', ['signup']) ?></p>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <?= Html::a('Forgot password?', ['request-password-reset']) ?> |
+                                <?= Html::a('Resend verification email', ['resend-verification-email']) ?>
+                            </small>
+                        </div>
+
+                    <?php ActiveForm::end(); ?>
                 </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
 </div>
