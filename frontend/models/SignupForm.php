@@ -14,6 +14,11 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $first_name;
+    public $last_name;
+    public $phone;
+    public $gender;
+    public $timezone;
 
 
     /**
@@ -35,6 +40,29 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            [['first_name', 'last_name'], 'string', 'max' => 50],
+            [['phone'], 'string', 'max' => 20],
+            [['gender'], 'in', 'range' => ['male', 'female', 'other']],
+            [['timezone'], 'string', 'max' => 50],
+            [['timezone'], 'default', 'value' => 'UTC'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            'email' => 'Email',
+            'password' => 'Password',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'phone' => 'Phone Number',
+            'gender' => 'Gender',
+            'timezone' => 'Timezone',
         ];
     }
 
@@ -52,6 +80,11 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->first_name = $this->first_name;
+        $user->last_name = $this->last_name;
+        $user->phone = $this->phone;
+        $user->gender = $this->gender;
+        $user->timezone = $this->timezone ?: 'UTC';
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
